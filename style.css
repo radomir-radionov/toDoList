@@ -4,12 +4,20 @@
 }
 
 h1 {
-  margin-bottom: 10px;
   color: rgb(7, 5, 0);
 }
 
+h1,
+h2 {
+  font-family: "Lobster", cursive;
+}
+
+#titleProgress {
+  text-align: center;
+}
+
 .wrapper {
-  height: 100vh;
+  height: 100%;
   background: rgb(250, 191, 30);
   display: flex;
   flex-direction: column;
@@ -18,7 +26,6 @@ h1 {
 
 .container {
   width: 300px;
-  height: 170px;
   background-color: rgb(49, 192, 180);
   border-radius: 15px;
   margin-top: 50px;
@@ -26,24 +33,46 @@ h1 {
 }
 
 input {
-  margin-bottom: 10px;
+  margin: 10px 0 10px 0;
   padding: 5px;
   width: 250px;
 }
-.desk {
+#board {
   width: 90%;
-  height: 300px;
-  margin-top: 50px;
+  margin: 50px 0px 50px 0px;
   background: radial-gradient(#4cc6ff, #ffffff);
   border-radius: 35px;
+}
+#wrapper_box {
   display: flex;
   justify-content: space-around;
-  align-items: center;
 }
 
-.box {
-  width: 200px;
+#box,
+#boxToDo {
+  width: 270px;
   height: 200px;
-  background-color: rgb(126, 189, 186);
+  background-color: rgb(49, 192, 180);
+  margin: 20px 0 20px 0;
   padding: 10px;
+}
+
+#btnEdit,
+#btnInProgress,
+#btnDelete {
+  background-size: cover;
+  width: 25px;
+  height: 25px;
+}
+
+#btnEdit {
+  background-image: url(icons/48_Pencil.jpg);
+}
+
+#btnInProgress {
+  background-image: url(icons/gears_008.jpg);
+}
+
+#btnDelete {
+  background-image: url(icons/illust58-7382-01.jpg);
 }
