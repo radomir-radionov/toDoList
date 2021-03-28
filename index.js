@@ -1,12 +1,17 @@
 const arr = [];
+const arrDelete = [];
 const form = document.querySelector("#form");
 const board = document.querySelector("#board");
 const btnSub = document.querySelector("#btnSub");
-const btnEdit = document.querySelector("#btnEdit");
-const btnInProgress = document.querySelector("#btnInProgress");
-const btnDelete = document.querySelector("#btnDelete");
+const modal = document.getElementById("modalWrapper");
+const okEditBtn = document.getElementById("okEditBtn");
+const span = document.getElementById("closeBtn");
+let elemIndex;
 
 retrieveFormValue = (event) => {
+  const btnEdit = document.querySelector("#btnEdit");
+  const btnInProgress = document.querySelector("#btnInProgress");
+  const btnDelete = document.querySelector("#btnDelete");
   event.preventDefault();
   createObj();
   drawBoard();
@@ -41,9 +46,8 @@ const drawBoard = () => {
     <h2>Done</h2>
     <input type="text"></input>
   </div>
-  <div id="box">
+  <div id="boxDelete">
     <h2>Deleted</h2>
-    <input type="text"></input>
   </div>
 </div>
     `;
@@ -51,15 +55,58 @@ const drawBoard = () => {
 };
 
 board.addEventListener("click", (event) => {
-  const elem = event.target.closest("#boxToDo");
-  const title = elem.querySelector(".title");
-  const description = elem.querySelector(".description");
+  const elemTodo = event.target.closest("#boxToDo");
+  const elemDelete = event.target.closest("#boxDelete");
+  const title = elemTodo.querySelector(".title");
+  const description = elemTodo.querySelector(".description");
   let newObj = {
     title: title.value,
     description: description.value,
     data: new Date(),
   };
-  console.log(newObj);
+  if (event.target.id === "btnEdit") {
+    drawModal(newObj);
+  } else if (event.target.id === "btnDelete") {
+  }
+  console.log(arr);
+});
+
+const drawModal = (newObj) => {
+  modalContend.innerHTML = `
+  <input id="editTitle" value="${newObj.title}"></input>
+  <input id="editDescription" value="${newObj.description}"></input>
+    `;
+  modal.style.display = "block";
+};
+
+const drawBoxDelete = (newObj) => {
+  boxDelete.innerHTML = `
+    <h2>Deleted</h2>
+    <input id="editTitle" value="${newObj.title}"></input>
+    <input id="editDescription" value="${newObj.description}"></input>`;
+};
+
+okEditBtn.addEventListener("click", () => {
+  let editTitle = document.querySelector("#editTitle");
+  let editDescription = document.querySelector("#editDescription");
+  let newObjEdit = {
+    title: editTitle.value,
+    description: editDescription.value,
+    data: new Date(),
+  };
+  arr.splice(elemIndex, 1, newObjEdit);
+  drawBoard();
+  modal.style.display = "none";
 });
 
 form.addEventListener("submit", retrieveFormValue);
+
+span.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+window.addEventListener("click", (event) => {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+});
