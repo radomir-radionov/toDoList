@@ -65,10 +65,23 @@ board.addEventListener("click", (event) => {
     data: new Date(),
   };
   if (event.target.id === "btnEdit") {
+    arr.forEach((item, index) => {
+      if (item.title === newObj.title) {
+        elemIndex = index;
+      }
+    });
     drawModal(newObj);
   } else if (event.target.id === "btnDelete") {
+    arr.forEach((item, index) => {
+      if (item.title === newObj.title) {
+        arr.splice(index, 1);
+        arrDelete.push(item);
+        drawBoxDelete(newObj);
+      }
+    });
   }
   console.log(arr);
+  console.log(arrDelete);
 });
 
 const drawModal = (newObj) => {
@@ -77,13 +90,6 @@ const drawModal = (newObj) => {
   <input id="editDescription" value="${newObj.description}"></input>
     `;
   modal.style.display = "block";
-};
-
-const drawBoxDelete = (newObj) => {
-  boxDelete.innerHTML = `
-    <h2>Deleted</h2>
-    <input id="editTitle" value="${newObj.title}"></input>
-    <input id="editDescription" value="${newObj.description}"></input>`;
 };
 
 okEditBtn.addEventListener("click", () => {
@@ -99,8 +105,6 @@ okEditBtn.addEventListener("click", () => {
   modal.style.display = "none";
 });
 
-form.addEventListener("submit", retrieveFormValue);
-
 span.addEventListener("click", () => {
   modal.style.display = "none";
 });
@@ -110,3 +114,12 @@ window.addEventListener("click", (event) => {
     modal.style.display = "none";
   }
 });
+
+const drawBoxDelete = (newObj) => {
+  boxDelete.innerHTML = `
+    <h2>Deleted</h2>
+    <input id="editTitle" value="${newObj.title}"></input>
+    <input id="editDescription" value="${newObj.description}"></input>`;
+};
+
+form.addEventListener("submit", retrieveFormValue);

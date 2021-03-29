@@ -72,6 +72,7 @@ input {
 
 #btnInProgress {
   background-image: url(icons/illust58-6461-01.jpg);
+  background: rgb(99, 228, 228);
 }
 
 #btnDelete {
@@ -121,4 +122,18 @@ input {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+.btn {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
 }
