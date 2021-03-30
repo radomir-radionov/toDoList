@@ -1,5 +1,6 @@
 const arr = [];
 const arrDelete = [];
+const arrInProgress = [];
 const form = document.querySelector("#form");
 const board = document.querySelector("#board");
 const btnSub = document.querySelector("#btnSub");
@@ -7,6 +8,9 @@ const modal = document.getElementById("modalWrapper");
 const okEditBtn = document.getElementById("okEditBtn");
 const span = document.getElementById("closeBtn");
 let elemIndex;
+const boxToDo = document.getElementById("boxToDo");
+const boxInProgress = document.getElementById("boxInProgress");
+const boxDelete = document.getElementById("boxDelete");
 
 retrieveFormValue = (event) => {
   const btnEdit = document.querySelector("#btnEdit");
@@ -26,42 +30,32 @@ const createObj = () => {
 };
 
 const drawBoard = () => {
-  board.innerHTML = "<h1 id='titleProgress'>Progress</h1>";
+  boxToDo.innerHTML = "";
   arr.forEach((item) => {
-    board.innerHTML += `
-    <div id="wrapper_box">
-  <div id="boxToDo">
-    <h2>To Do</h2>
-    <input class="title" type="text" value="${item.title}"></input>
-    <input class="description" type="text" value="${item.description}"></input>
-    <button id="btnEdit"></button>
-    <button id="btnInProgress"></button>
-    <button id="btnDelete"></button>
-  </div>
-  <div id="box">
-    <h2>In Progress</h2>
-    <input type="text"></input>
-  </div>
-  <div id="box">
-    <h2>Done</h2>
-    <input type="text"></input>
-  </div>
-  <div id="boxDelete">
-    <h2>Deleted</h2>
-  </div>
-</div>
+    boxToDo.innerHTML += `
+    <div id="formEdit">
+    <h3>Title: <span class="title">${item.title}</span></h3>
+    <h3>Description: <span class="description">${item.description}</span></h3>
+    <div class=btnBox>
+    <button id="btnInProgress" class="btn">&#10004</i></button>
+    <button id="btnDelete" class="btn">&#10005</i></button>
+    <button id="btnEdit" class="btn">&#9998</i></button> 
+    </div>
+    <hr>
+    </div>
     `;
   });
 };
 
 board.addEventListener("click", (event) => {
-  const elemTodo = event.target.closest("#boxToDo");
-  const elemDelete = event.target.closest("#boxDelete");
-  const title = elemTodo.querySelector(".title");
-  const description = elemTodo.querySelector(".description");
+  // const elemTodo = event.target.closest("#boxToDo");
+  // const elemDelete = event.target.closest("#boxDelete");
+  const elem = event.target.closest("#formEdit");
+  const title = elem.querySelector(".title");
+  const description = elem.querySelector(".description");
   let newObj = {
-    title: title.value,
-    description: description.value,
+    title: title.textContent,
+    description: description.textContent,
     data: new Date(),
   };
   if (event.target.id === "btnEdit") {
@@ -76,12 +70,23 @@ board.addEventListener("click", (event) => {
       if (item.title === newObj.title) {
         arr.splice(index, 1);
         arrDelete.push(item);
+        drawBoard();
         drawBoxDelete(newObj);
+      }
+    });
+  } else if (event.target.id === "btnInProgress") {
+    arr.forEach((item, index) => {
+      if (item.title === newObj.title) {
+        arr.splice(index, 1);
+        arrInProgress.push(item);
+        drawBoard();
+        drawInProgress(newObj);
       }
     });
   }
   console.log(arr);
   console.log(arrDelete);
+  console.log(arrInProgress);
 });
 
 const drawModal = (newObj) => {
@@ -98,7 +103,6 @@ okEditBtn.addEventListener("click", () => {
   let newObjEdit = {
     title: editTitle.value,
     description: editDescription.value,
-    data: new Date(),
   };
   arr.splice(elemIndex, 1, newObjEdit);
   drawBoard();
@@ -115,11 +119,20 @@ window.addEventListener("click", (event) => {
   }
 });
 
+const drawInProgress = (newObj) => {
+  boxInProgress.innerHTML += `
+    <h3>Title: <span class="title">${newObj.title}</span></h3>
+    <h3>Description: <span class="description">${newObj.description}</span></h3>
+    <div class=btnBox>
+    <button id="btnInProgress" class="btn">&#10004</i></button>
+    </div>
+    <hr>`;
+};
+
 const drawBoxDelete = (newObj) => {
-  boxDelete.innerHTML = `
-    <h2>Deleted</h2>
-    <input id="editTitle" value="${newObj.title}"></input>
-    <input id="editDescription" value="${newObj.description}"></input>`;
+  boxDelete.innerHTML += `
+    <h3>Title: <span class="title">${newObj.title}</span></h3>
+    <h3>Description: <span class="description">${newObj.description}</span></h3>`;
 };
 
 form.addEventListener("submit", retrieveFormValue);

@@ -12,6 +12,13 @@ h2 {
   font-family: "Lobster", cursive;
 }
 
+hr {
+  border: none;
+  background-color: rgb(0, 0, 0);
+  height: 2px;
+  margin: 10px 0 10px 0;
+}
+
 #titleProgress {
   text-align: center;
 }
@@ -43,40 +50,67 @@ input {
   background: radial-gradient(#4cc6ff, #ffffff);
   border-radius: 35px;
 }
+
+.boxTitls {
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
 #wrapper_box {
   display: flex;
   justify-content: space-around;
 }
 
 #box,
+#boxInProgress,
 #boxToDo,
 #boxDelete {
   width: 270px;
-  height: 200px;
+  min-height: 130px;
   background-color: rgb(49, 192, 180);
   margin: 20px 0 20px 0;
   padding: 10px;
 }
 
-#btnEdit,
-#btnInProgress,
-#btnDelete {
-  background-size: cover;
-  width: 25px;
-  height: 25px;
+.btnBox {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.btn {
+  border: none;
+  color: white;
+  padding: 6px 8px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 #btnEdit {
-  background-image: url(icons/48_Pencil.jpg);
+  background-color: rgb(73, 70, 255);
+}
+
+#btnEdit:hover {
+  background-color: rgb(35, 32, 252);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 #btnInProgress {
-  background-image: url(icons/illust58-6461-01.jpg);
-  background: rgb(99, 228, 228);
+  background-color: rgb(70, 255, 95);
+}
+
+#btnInProgress:hover {
+  background-color: rgb(32, 252, 43);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 #btnDelete {
-  background-image: url(icons/illust58-7382-01.jpg);
+  background-color: rgb(255, 75, 30);
+}
+
+#btnDelete:hover {
+  background-color: rgb(252, 58, 32);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 #modalWrapper {
@@ -122,18 +156,4 @@ input {
   color: #000;
   text-decoration: none;
   cursor: pointer;
-}
-
-.btn {
-  background-color: DodgerBlue;
-  border: none;
-  color: white;
-  padding: 12px 16px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* Darker background on mouse-over */
-.btn:hover {
-  background-color: RoyalBlue;
 }
