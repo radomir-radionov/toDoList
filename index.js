@@ -1,25 +1,17 @@
 const arr = [];
 const arrDelete = [];
 const arrInProgress = [];
+const arrDone = [];
 const form = document.querySelector("#form");
 const board = document.querySelector("#board");
-const btnSub = document.querySelector("#btnSub");
 const modal = document.getElementById("modalWrapper");
-const okEditBtn = document.getElementById("okEditBtn");
 const span = document.getElementById("closeBtn");
 let elemIndex;
-const boxToDo = document.getElementById("boxToDo");
-const boxInProgress = document.getElementById("boxInProgress");
-const boxDelete = document.getElementById("boxDelete");
 
 retrieveFormValue = (event) => {
-  const btnEdit = document.querySelector("#btnEdit");
-  const btnInProgress = document.querySelector("#btnInProgress");
-  const btnDelete = document.querySelector("#btnDelete");
   event.preventDefault();
   createObj();
   drawBoard();
-  console.log(arr);
 };
 
 const createObj = () => {
@@ -39,7 +31,7 @@ const drawBoard = () => {
     <div class=btnBox>
     <button id="btnInProgress" class="btn">&#10004</i></button>
     <button id="btnDelete" class="btn">&#10005</i></button>
-    <button id="btnEdit" class="btn">&#9998</i></button> 
+    <button id="btnEdit" class="btn">&#9998</i></button>
     </div>
     <hr>
     </div>
@@ -48,15 +40,12 @@ const drawBoard = () => {
 };
 
 board.addEventListener("click", (event) => {
-  // const elemTodo = event.target.closest("#boxToDo");
-  // const elemDelete = event.target.closest("#boxDelete");
   const elem = event.target.closest("#formEdit");
   const title = elem.querySelector(".title");
   const description = elem.querySelector(".description");
   let newObj = {
     title: title.textContent,
     description: description.textContent,
-    data: new Date(),
   };
   if (event.target.id === "btnEdit") {
     arr.forEach((item, index) => {
@@ -83,10 +72,20 @@ board.addEventListener("click", (event) => {
         drawInProgress(newObj);
       }
     });
+  } else if (event.target.id === "btnDone") {
+    arrInProgress.forEach((item, index) => {
+      if (item.title === newObj.title) {
+        arrInProgress.splice(index, 1);
+        arrDone.push(item);
+        drawInProgress(newObj);
+        drawDone(newObj);
+      }
+    });
   }
-  console.log(arr);
-  console.log(arrDelete);
-  console.log(arrInProgress);
+  // console.log(arr);
+  // console.log(arrInProgress);
+  // console.log(arrDone);
+  // console.log(arrDelete);
 });
 
 const drawModal = (newObj) => {
@@ -120,19 +119,33 @@ window.addEventListener("click", (event) => {
 });
 
 const drawInProgress = (newObj) => {
-  boxInProgress.innerHTML += `
+  boxInProgress.innerHTML = "";
+  arrInProgress.forEach((newObj) => {
+    boxInProgress.innerHTML += `
+    <div id="formEdit">
+  <h3>Title: <span class="title">${newObj.title}</span></h3>
+  <h3>Description: <span class="description">${newObj.description}</span></h3>
+  <div class=btnBox>
+  <button id="btnDone" class="btn">&#10004</i></button>
+  </div>
+  <hr>
+  </div>
+    `;
+  });
+};
+
+const drawDone = (newObj) => {
+  boxDone.innerHTML += `
     <h3>Title: <span class="title">${newObj.title}</span></h3>
     <h3>Description: <span class="description">${newObj.description}</span></h3>
-    <div class=btnBox>
-    <button id="btnInProgress" class="btn">&#10004</i></button>
-    </div>
     <hr>`;
 };
 
 const drawBoxDelete = (newObj) => {
   boxDelete.innerHTML += `
     <h3>Title: <span class="title">${newObj.title}</span></h3>
-    <h3>Description: <span class="description">${newObj.description}</span></h3>`;
+    <h3>Description: <span class="description">${newObj.description}</span></h3>
+    <hr>`;
 };
 
 form.addEventListener("submit", retrieveFormValue);

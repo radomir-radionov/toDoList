@@ -46,6 +46,7 @@ input {
 }
 #board {
   width: 90%;
+  max-width: 1300px;
   margin: 50px 0px 50px 0px;
   background: radial-gradient(#4cc6ff, #ffffff);
   border-radius: 35px;
@@ -62,7 +63,7 @@ input {
   justify-content: space-around;
 }
 
-#box,
+#boxDone,
 #boxInProgress,
 #boxToDo,
 #boxDelete {
@@ -97,6 +98,15 @@ input {
 
 #btnInProgress {
   background-color: rgb(70, 255, 95);
+}
+
+#btnDone {
+  background-color: rgb(255, 70, 255);
+}
+
+#btnDone:hover {
+  background-color: rgb(214, 63, 181);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 #btnInProgress:hover {
