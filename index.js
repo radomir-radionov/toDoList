@@ -64,12 +64,13 @@ board.addEventListener("click", (event) => {
       }
     });
   } else if (event.target.id === "btnInProgress") {
+    arrName = arrInProgress;
     arr.forEach((item, index) => {
       if (item.title === newObj.title) {
         arr.splice(index, 1);
         arrInProgress.push(item);
         drawBoard();
-        drawInProgress(newObj);
+        drawInProgress();
       }
     });
   } else if (event.target.id === "btnDone") {
@@ -82,10 +83,10 @@ board.addEventListener("click", (event) => {
       }
     });
   }
-  // console.log(arr);
-  // console.log(arrInProgress);
-  // console.log(arrDone);
-  // console.log(arrDelete);
+  console.log(arr);
+  console.log(arrInProgress);
+  console.log(arrDone);
+  console.log(arrDelete);
 });
 
 const drawModal = (newObj) => {
@@ -118,7 +119,7 @@ window.addEventListener("click", (event) => {
   }
 });
 
-const drawInProgress = (newObj) => {
+const drawInProgress = () => {
   boxInProgress.innerHTML = "";
   arrInProgress.forEach((newObj) => {
     boxInProgress.innerHTML += `
