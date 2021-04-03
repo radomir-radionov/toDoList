@@ -1,37 +1,54 @@
-const arr = [];
-const arrDelete = [];
-const arrInProgress = [];
-const arrDone = [];
+const data = {
+  todo: [],
+  arrDelete: [],
+  arrInProgress: [],
+  arrDone: [],
+};
 const form = document.querySelector("#form");
 const board = document.querySelector("#board");
 const modal = document.getElementById("modalWrapper");
 const span = document.getElementById("closeBtn");
+const boxToDo = document.querySelector("#boxToDo");
+const boxInProgress = document.querySelector("#boxInProgress");
+const boxDelete = document.querySelector("#boxDelete");
+const boxDone = document.querySelector("#boxDone");
 let elemIndex;
-
 retrieveFormValue = (event) => {
   event.preventDefault();
   createObj();
-  drawBoard();
+  drawBoard(boxToDo, "todo");
 };
 
 const createObj = () => {
-  arr.push({
+  data.todo.push({
     title: title.value,
     description: description.value,
   });
 };
 
-const drawBoard = () => {
-  boxToDo.innerHTML = "";
-  arr.forEach((item) => {
-    boxToDo.innerHTML += `
+const drawBoard = (desk, deskName) => {
+  desk.innerHTML = "";
+  data[deskName].forEach((item) => {
+    desk.innerHTML += `
     <div id="formEdit">
     <h3>Title: <span class="title">${item.title}</span></h3>
     <h3>Description: <span class="description">${item.description}</span></h3>
     <div class=btnBox>
-    <button id="btnInProgress" class="btn">&#10004</i></button>
-    <button id="btnDelete" class="btn">&#10005</i></button>
-    <button id="btnEdit" class="btn">&#9998</i></button>
+    ${
+      deskName === "arrInProgress"
+        ? `<button id="btnDone" class="btn">&#10004</i></button>`
+        : ``
+    }
+    ${
+      deskName === "arrDelete" ||
+      deskName === "arrDone" ||
+      deskName === "arrInProgress"
+        ? ""
+        : `
+        <button id="btnInProgress" class="btn">&#10004</i></button>
+        <button id="btnDelete" class="btn">&#10005</i></button>
+        <button id="btnEdit" class="btn">&#9998</i></button>`
+    }
     </div>
     <hr>
     </div>
@@ -48,52 +65,45 @@ board.addEventListener("click", (event) => {
     description: description.textContent,
   };
   if (event.target.id === "btnEdit") {
-    arr.forEach((item, index) => {
+    data.todo.forEach((item, index) => {
       if (item.title === newObj.title) {
         elemIndex = index;
       }
     });
     drawModal(newObj);
   } else if (event.target.id === "btnDelete") {
-    arr.forEach((item, index) => {
-      if (item.title === newObj.title) {
-        arr.splice(index, 1);
-        arrDelete.push(item);
-        drawBoard();
-        drawBoxDelete(newObj);
-      }
-    });
+    changeArr(newObj, data.todo, data.arrDelete);
+    drawBoard(boxToDo, "todo");
+    drawBoard(boxDelete, "arrDelete");
   } else if (event.target.id === "btnInProgress") {
-    arrName = arrInProgress;
-    arr.forEach((item, index) => {
-      if (item.title === newObj.title) {
-        arr.splice(index, 1);
-        arrInProgress.push(item);
-        drawBoard();
-        drawInProgress();
-      }
-    });
+    changeArr(newObj, data.todo, data.arrInProgress);
+    drawBoard(boxToDo, "todo");
+    drawBoard(boxInProgress, "arrInProgress");
   } else if (event.target.id === "btnDone") {
-    arrInProgress.forEach((item, index) => {
-      if (item.title === newObj.title) {
-        arrInProgress.splice(index, 1);
-        arrDone.push(item);
-        drawInProgress(newObj);
-        drawDone(newObj);
-      }
-    });
+    changeArr(newObj, data.arrInProgress, data.arrDone);
+    drawBoard(boxInProgress, "arrInProgress");
+    drawBoard(boxDone, "arrDone");
   }
-  console.log(arr);
-  console.log(arrInProgress);
-  console.log(arrDone);
-  console.log(arrDelete);
+  // console.log(arr);
+  // console.log(arrInProgress);
+  // console.log(arrDone);
+  // console.log(arrDelete);
 });
+
+const changeArr = (newObj, outputDesk, inputDesk) => {
+  outputDesk.forEach((item, index) => {
+    if (item.title === newObj.title) {
+      outputDesk.splice(index, 1);
+      inputDesk.push(item);
+    }
+  });
+};
 
 const drawModal = (newObj) => {
   modalContend.innerHTML = `
   <input id="editTitle" value="${newObj.title}"></input>
   <input id="editDescription" value="${newObj.description}"></input>
-    `;
+  `;
   modal.style.display = "block";
 };
 
@@ -104,8 +114,8 @@ okEditBtn.addEventListener("click", () => {
     title: editTitle.value,
     description: editDescription.value,
   };
-  arr.splice(elemIndex, 1, newObjEdit);
-  drawBoard();
+  data.todo.splice(elemIndex, 1, newObjEdit);
+  drawBoard(boxToDo, "todo");
   modal.style.display = "none";
 });
 
@@ -119,34 +129,46 @@ window.addEventListener("click", (event) => {
   }
 });
 
-const drawInProgress = () => {
-  boxInProgress.innerHTML = "";
-  arrInProgress.forEach((newObj) => {
-    boxInProgress.innerHTML += `
-    <div id="formEdit">
-  <h3>Title: <span class="title">${newObj.title}</span></h3>
-  <h3>Description: <span class="description">${newObj.description}</span></h3>
-  <div class=btnBox>
-  <button id="btnDone" class="btn">&#10004</i></button>
-  </div>
-  <hr>
-  </div>
-    `;
-  });
-};
-
-const drawDone = (newObj) => {
-  boxDone.innerHTML += `
-    <h3>Title: <span class="title">${newObj.title}</span></h3>
-    <h3>Description: <span class="description">${newObj.description}</span></h3>
-    <hr>`;
-};
-
-const drawBoxDelete = (newObj) => {
-  boxDelete.innerHTML += `
-    <h3>Title: <span class="title">${newObj.title}</span></h3>
-    <h3>Description: <span class="description">${newObj.description}</span></h3>
-    <hr>`;
-};
-
 form.addEventListener("submit", retrieveFormValue);
+
+// const drawInProgress = () => {
+//   boxInProgress.innerHTML = "";
+//   data.arrInProgress.forEach((newObj) => {
+//     boxInProgress.innerHTML += `
+//   <div id="formEdit">
+//   <h3>Title: <span class="title">${newObj.title}</span></h3>
+//   <h3>Description: <span class="description">${newObj.description}</span></h3>
+//   <div class=btnBox>
+//   <button id="btnDone" class="btn">&#10004</i></button>
+//   </div>
+//   <hr>
+//   </div>
+//     `;
+//   });
+// };
+
+// const drawBoxName = (newObj, boxName) => {
+//   boxName.innerHTML += `
+//   <h3>Title: <span class="title">${newObj.title}</span></h3>
+//   <h3>Description: <span class="description">${newObj.description}</span></h3>
+//   <hr>`;
+// };
+
+// ${inProgress ? <button></button>:<button></button>}
+// const drawBoard = () => {
+//   boxToDo.innerHTML = "";
+//   data.todo.forEach((item) => {
+//     boxToDo.innerHTML += `
+//     <div id="formEdit">
+//     <h3>Title: <span class="title">${item.title}</span></h3>
+//     <h3>Description: <span class="description">${item.description}</span></h3>
+//     <div class=btnBox>
+//     <button id="btnInProgress" class="btn">&#10004</i></button>
+//     <button id="btnDelete" class="btn">&#10005</i></button>
+//     <button id="btnEdit" class="btn">&#9998</i></button>
+//     </div>
+//     <hr>
+//     </div>
+//     `;
+//   });
+// };
