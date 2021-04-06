@@ -13,6 +13,7 @@ const boxInProgress = document.querySelector("#boxInProgress");
 const boxDelete = document.querySelector("#boxDelete");
 const boxDone = document.querySelector("#boxDone");
 let elemIndex;
+
 retrieveFormValue = (event) => {
   event.preventDefault();
   createObj();
@@ -84,10 +85,10 @@ board.addEventListener("click", (event) => {
     drawBoard(boxInProgress, "arrInProgress");
     drawBoard(boxDone, "arrDone");
   }
-  // console.log(arr);
-  // console.log(arrInProgress);
-  // console.log(arrDone);
-  // console.log(arrDelete);
+  console.log(data.todo);
+  console.log(data.arrInProgress);
+  console.log(data.arrDone);
+  console.log(data.arrDelete);
 });
 
 const changeArr = (newObj, outputDesk, inputDesk) => {
@@ -130,45 +131,3 @@ window.addEventListener("click", (event) => {
 });
 
 form.addEventListener("submit", retrieveFormValue);
-
-// const drawInProgress = () => {
-//   boxInProgress.innerHTML = "";
-//   data.arrInProgress.forEach((newObj) => {
-//     boxInProgress.innerHTML += `
-//   <div id="formEdit">
-//   <h3>Title: <span class="title">${newObj.title}</span></h3>
-//   <h3>Description: <span class="description">${newObj.description}</span></h3>
-//   <div class=btnBox>
-//   <button id="btnDone" class="btn">&#10004</i></button>
-//   </div>
-//   <hr>
-//   </div>
-//     `;
-//   });
-// };
-
-// const drawBoxName = (newObj, boxName) => {
-//   boxName.innerHTML += `
-//   <h3>Title: <span class="title">${newObj.title}</span></h3>
-//   <h3>Description: <span class="description">${newObj.description}</span></h3>
-//   <hr>`;
-// };
-
-// ${inProgress ? <button></button>:<button></button>}
-// const drawBoard = () => {
-//   boxToDo.innerHTML = "";
-//   data.todo.forEach((item) => {
-//     boxToDo.innerHTML += `
-//     <div id="formEdit">
-//     <h3>Title: <span class="title">${item.title}</span></h3>
-//     <h3>Description: <span class="description">${item.description}</span></h3>
-//     <div class=btnBox>
-//     <button id="btnInProgress" class="btn">&#10004</i></button>
-//     <button id="btnDelete" class="btn">&#10005</i></button>
-//     <button id="btnEdit" class="btn">&#9998</i></button>
-//     </div>
-//     <hr>
-//     </div>
-//     `;
-//   });
-// };
